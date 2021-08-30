@@ -1,0 +1,17 @@
+.swiper {
+  height: 330px;
+  width: 100%;
+
+  &-button-prev,
+  &-button-next {
+    color: #fff;
+  }
+
+  & .movie-description {
+    background-color: rgba(0, 0, 0, 0.3);
+    bottom: 0;
+    padding: 5px 30px;
+    position: absolute;
+    width: 100%;
+  }
+}
