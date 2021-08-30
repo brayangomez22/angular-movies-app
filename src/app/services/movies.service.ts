@@ -42,4 +42,14 @@ export class MoviesService {
         })
       );
   }
+
+  searchMovies(text: string): Observable<Movie[]> {
+    const params = { ...this.params, page: '1', query: text };
+
+    return this.http
+      .get<BillboardResponse>(`${this.baseUrl}/search/movie`, {
+        params,
+      })
+      .pipe(map((resp) => resp.results));
+  }
 }
