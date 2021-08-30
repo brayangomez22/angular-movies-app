@@ -10,16 +10,29 @@ import { Movie } from '../../interfaces/billboard-response';
 })
 export class SlideshowComponent implements OnInit, AfterViewInit {
   @Input() movies: Movie[] | undefined;
+  public swiper: Swiper | undefined;
 
   constructor() {}
 
   ngAfterViewInit() {
-    const swiper = new Swiper('.swiper', {
+    this.swiper = new Swiper('.swiper', {
       loop: true,
     });
   }
 
   ngOnInit(): void {
     console.log(this.movies);
+  }
+
+  onSlidePrev() {
+    if (this.swiper != null) {
+      this.swiper.slidePrev();
+    }
+  }
+
+  onSlideNext() {
+    if (this.swiper != null) {
+      this.swiper.slideNext();
+    }
   }
 }
