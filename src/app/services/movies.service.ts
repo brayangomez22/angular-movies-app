@@ -23,6 +23,10 @@ export class MoviesService {
     };
   }
 
+  resetBillboardPage() {
+    this.billboardPage = 1;
+  }
+
   getBillboard(): Observable<Movie[]> {
     if (this.loading) {
       return of([]);
