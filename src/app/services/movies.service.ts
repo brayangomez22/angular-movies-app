@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
-import { tap } from 'rxjs/operators';
-import { BillboardResponse } from '../interfaces/billboard-response';
+import { tap, map } from 'rxjs/operators';
+import { BillboardResponse, Movie } from '../interfaces/billboard-response';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +11,7 @@ import { BillboardResponse } from '../interfaces/billboard-response';
 export class MoviesService {
   private baseUrl: string = 'https://api.themoviedb.org/3';
   private billboardPage = 1;
+  public loading = false;
 
   constructor(private http: HttpClient) {}
 
@@ -22,14 +23,22 @@ export class MoviesService {
     };
   }
 
-  getBillboard(): Observable<BillboardResponse> {
+  getBillboard(): Observable<Movie[]> {
+    if (this.loading) {
+      return of([]);
+    }
+
+    this.loading = true;
+
     return this.http
       .get<BillboardResponse>(`${this.baseUrl}/movie/now_playing`, {
         params: this.params,
       })
       .pipe(
+        map((resp) => resp.results),
         tap(() => {
           this.billboardPage += 1;
+          this.loading = false;
         })
       );
   }
